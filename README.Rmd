@@ -7,6 +7,235 @@ output: github_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## NEED TO WRITE THIS
 
-This is for managing and understanding your HOBO temperature data. This will work on any HOBO data that has been downloaded in csv format (not hproj format).
+## Requirements
+
+  + [R v4+](https://www.r-project.org/)
+  + [dplyr](https://CRAN.R-project.org/package=dplyr)
+  + [readr](https://CRAN.R-project.org/package=readr)
+  + [stringr](https://CRAN.R-project.org/package=stringr)
+  + [ggplot2](https://CRAN.R-project.org/package=ggplot2)
+  + [lubridate](https://CRAN.R-project.org/package=lubridate)
+  + [clifro](https://CRAN.R-project.org/package=clifro)
+  + [lubridate](https://CRAN.R-project.org/package=lubridate)
+  + [oceanwaves](https://CRAN.R-project.org/package=oceanwaves)
+  + [oce](https://CRAN.R-project.org/package=oce)
+  + [owhlR](https://github.com/millerlp/owhlR) *from github*
+  + [mesowest](https://github.com/fickse/mesowest) *from github*
+
+## Installation
+
+```
+remotes::install_github("rfrancolini/sensible")
+```
+## Temperature Data
+
+There are a handful of functions for managing and understanding your HOBO temperature data. This will work on any HOBO data that has been downloaded in csv format (not hproj format).
+
+## Function: read_hobotemp()
+
+This function will take in raw hobotemp data and output a csv. Options include whether you want to define a site name (if not, itll pull it from the file name), if you want to define the start/stop times, have it automatically remove the first and last day (default setting), or keep all of the data, and if you want to write a file with a specific output name.
+
+### Read Example Data
+
+```{r exampletemp}
+library(sensible)
+x <- read_hobotemp()
+x
+```
+
+### Read Example Data with User Defined Site
+
+``` {r exampleSiteName}
+library(sensible)
+x <- read_hobotemp(site = "Little Drisko Island")
+x
+```
+
+### Read Example Data With User Defined Start/Stop Dates
+
+```{r exampletempStartStop}
+ss <- as.POSIXct(c("2021-05-20", "2021-06-01"), tz = "UTC")
+xud <- read_hobotemp(clipped = "user", startstop = ss)
+xud
+```
+
+## Function: summarize_hobotemp()
+
+Create a dataframe summarizing the temperature data, will group by site.
+
+### Summarize data, csv with one site
+```{r ldSummary}
+sum1 <- summarize_hobotemp(x)
+print.data.frame(sum1)
+```
+
+### Summarize data, csv with more than one site
+```{r msSummary}
+sum2 <- summarize_hobotemp(example_ridge_data())
+print.data.frame(sum2)
+```
+
+## Function: draw_temp_scatter_plot()
+
+This function will read in a csv of your HOBO data and draw a scatter plot with an overlapping trendline. 
+
+### Draw Example Scatter Plot
+
+```{r tempplot, message=FALSE}
+tempplot_x <- draw_temp_scatter_plot(x)
+tempplot_x
+```
+
+### Draw Example Scatter Plot with User Defined Start/Stop Dates and Title
+
+```{r tempplot_ud, message=FALSE}
+tempplot_xud <- draw_temp_scatter_plot(xud, main = "Temperature at Depth, End of May")
+tempplot_xud
+```
+
+## Function: draw_ridgeline_plot()
+
+This function will create a color-coded ridgeline plot, adapted from [here](https://r-graph-gallery.com/294-basic-ridgeline-plot.html). This will have a line representing the temperature, as well as the space underneath the line colored in using a temperature gradient color scheme. Sites will appear in order they are in dataframe, unless "ordered" option is used.
+
+### Draw example ridgeline plot
+
+```{r ridgeline, message = FALSE}
+ridgelineplot <- draw_ridgeline_plot()
+ridgelineplot
+```
+
+### Draw example ridgeline plot with specified site order (south to north)
+
+```{r ridgelineOrdered, message = FALSE}
+SiteOrder <-  c("Cape Liz", "Halfway Rock", "Damariscove", "Isle Au Haut", "Marshall")
+ridgelineplotO <- draw_ridgeline_plot(ordered = SiteOrder)
+ridgelineplotO
+```
+
+## Function: draw_temp_line_plot()
+
+This function will create a line plot, with a colorblind friendly color pallette, and can currently take up to 15 sites at once. Sites will appear in legend (or will be facetted upon) in order they are in dataframe, unless "ordered" option is used.
+
+### Draw example line plot
+
+```{r line, message = FALSE}
+lineplot <- draw_temp_line_plot()
+lineplot
+```
+
+### Draw example line plot facetted with specified site order (south to north)
+
+```{r lineOrdered, message = FALSE}
+SiteOrder <-  c("Cape Liz", "Halfway Rock", "Damariscove", "Isle Au Haut", "Marshall")
+lineplotO <- draw_temp_line_plot(ordered = SiteOrder, facet = "Site")
+lineplotO
+```
+
+## Tilt-Current Meter Data
+There are a handful of functions for managing and understanding your tilt-current meter data.
+
+## Read Example Data
+
+```{r exampletilt}
+library(sensible)
+x <- read_tiltometer()
+x
+```
+
+```{r uvplot}
+#uv <- draw_uv(x)
+#uv
+```
+
+```{r windrose}
+
+#month <- droplevels(factor(format(x$date, "%b"), levels = month.abb))
+#tiltometer_rose(x, facet = month, n_col = 2, speed.cuts = "quantile-4")
+
+
+```
+
+## Wave Logger Data
+There are a handful of functions for managing and understanding your open wave height logger data.
+
+## Read Example Data
+
+```{r exampleData}
+library(sensible)
+x <- read_wavelogger()
+head(x)
+```
+
+## Read Air Pressure Data Example
+
+```{r Airpressure}
+a <- example_airpressure()
+head(a)
+```
+
+## Calculate Wave Statistcs
+
+```{r WaveStats}
+#i <- interp_swpressure(wavelogger = x, airpressure = a)
+
+#w <- wave_stats(wavelogger = mbar_to_elevation(wavelogger = i)) 
+
+#head(w)
+```
+
+## Graph Significant Wave Height
+```{r GraphWaves}
+#wave_plot <- wavespec_plot(w)
+#wave_plot
+```
+
+## PAR data
+
+This is for managing and understanding your PAR Odyssey Xtreem data
+
+
+## Read Example Data
+
+```{r examplepar}
+library(sensible)
+x <- read_parXtreem()
+x
+```
+
+## Draw Example Plot
+
+```{r parplot}
+parplot_x <- draw_par_plot(x)
+parplot_x
+```
+
+## Read Example Data with Defined Start/Stop Dates
+
+```{r exampleparStartStop}
+ss <- as.POSIXct(c("2021-05-20", "2021-06-01"), tz = "UTC")
+xud <- read_parXtreem(clipped = "user", startstop = ss)
+xud
+```
+
+## Draw Example Plot User Defined Start/Stop Dates
+
+```{r parplot_ud}
+parplot_xud <- draw_par_plot(xud)
+parplot_xud
+```
+
+## Read Example Data Without Clipping Data
+
+```{r exampleNA}
+xna <- read_parXtreem(clipped = "none")
+xna
+```
+
+## Draw Example Plot Without Clipping Data
+
+```{r parplot_na}
+parplot_na <- draw_par_plot(xna)
+parplot_na
+```
+
