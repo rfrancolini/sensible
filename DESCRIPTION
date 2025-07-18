@@ -1,0 +1,21 @@
+Package: sensible
+Type: Package
+Title: Processes various sensor data and generates models
+Version: 0.1.0
+Author: Rene Francolini
+Maintainer: Rene Francolini <rfrancolini@bigelow.org>
+Description: This will process various sensor data and allow satellite models to be created
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+Imports: 
+  rlang,
+  stats,
+  dplyr,
+  readr,
+  stringr,
+  ggplot2,
+  lubridate,
+  ggridges,
+  viridis
