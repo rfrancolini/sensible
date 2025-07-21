@@ -376,4 +376,30 @@ draw_par_plot <- function(x = read_parXtreem(),
 }
 
 
+#' Plot sensor vs. satellite data
+#'
+#' @export
+#' @param x tibble of sensor & satellite model data
+#' @param main character, title
+#' @param xlabel character, title of xaxis
+#' @param ylabel character, title of yaxis
+#' @param ... further arguments passed to \code{\link[ggplot2]{theme}}
+#' @return ggplot2 object
+
+draw_satsensor_plot <- function(x = predict_data(),
+                          main = "Sensor vs. Satellite Data",
+                          xlabel = "Sensor",
+                          ylabel = "Satellite",
+                          ...){
+  
+  gg <- ggplot2::ggplot(data = x, ggplot2::aes(x = .data$sensor, y = .data$satellite)) +
+    ggplot2::geom_point() +
+    ggplot2::labs(title = main, x = xlabel, y = ylabel)
+  
+  gg
+}
+
+
+
+
 
