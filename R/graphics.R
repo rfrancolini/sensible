@@ -426,13 +426,14 @@ draw_model_plot <- function(x = predict_data(),
   third_col <- names(x2)[3]
   
 gg <- ggplot(x2, aes(x = DateTime, y = .data[[param]], color = Method)) +
-  geom_point() +
-  scale_color_manual(values = c('#004488', '#BB5566','#DDAA33'),
+  ggplot::geom_point() +
+  ggplot::scale_color_manual(values = c('#004488', '#BB5566','#DDAA33'),
                      name = "Method")+
-  theme_bw() +
-  labs(title = main) +
-  xlab(xlabel) +
-  ylab(ylabel)
+  ggplot::theme_bw() +
+  ggplot::labs(title = main) +
+  ggplot::xlab(xlabel) +
+  ggplot::ylab(ylabel)
+
 gg
 
 }
