@@ -763,8 +763,8 @@ create_model_data <- function(sensordata = example_filename_sensor(),
   stopifnot(file.exists(satellitedata[1]))
   
   #read in csv files provided
-  sensordata <- read_csv(sensordata[1])
-  satdata <- read_csv(satellitedata[1])
+  sensordata <- readr::read_csv(sensordata[1])
+  satdata <- readr::read_csv(satellitedata[1])
   
   #normalize csv column names as safeguard, add "sat" versus "sensor" column
   names(sensordata)[1] <- "DateTime"
@@ -773,8 +773,8 @@ create_model_data <- function(sensordata = example_filename_sensor(),
   names(satdata)[1] <- "DateTime"
   names(satdata)[2] <- param
   
-  sensordata <- sensordata %>% mutate(Method = "sensor")
-  satdata <- satdata %>% mutate(Method = "satellite")
+  sensordata <- sensordata %>% dplyr::mutate(Method = "sensor")
+  satdata <- satdata %>% dplyr::mutate(Method = "satellite")
   
   #convert date/time to POSIXct format in case its not
   sensordata$DateTime = as.POSIXct(sensordata$DateTime, format = "%Y/%m/%d %H:%M:%S", tz = "UTC")
@@ -784,12 +784,12 @@ create_model_data <- function(sensordata = example_filename_sensor(),
   second_col <- names(sensordata)[2]
   
   sensordata_daily <- sensordata %>%
-    mutate(DateTime = format(as.POSIXct(DateTime, format = "%Y/%m/%d %H:%M:%S"),
+    dplyr::mutate(DateTime = format(as.POSIXct(DateTime, format = "%Y/%m/%d %H:%M:%S"),
                              format = "%m/%d/%Y")) %>%
-    group_by(DateTime) %>%
-    summarise(!!param := mean(.data[[second_col]])) %>% 
-    mutate(Method = "sensor") %>%
-    ungroup()
+    dplyr::group_by(DateTime) %>%
+    dplyr::summarise(!!param := mean(.data[[second_col]])) %>% 
+    dplyr::mutate(Method = "sensor") %>%
+    dplyr::ungroup()
   
   sensordata_daily$DateTime <- as.POSIXct(sensordata_daily$DateTime, format = "%m/%d/%Y", tz = "UTC")
   
@@ -797,8 +797,8 @@ create_model_data <- function(sensordata = example_filename_sensor(),
   all_data_daily <- rbind(sensordata_daily, satdata)
   
   ###reformat data so temperature for each method is in different column
-  x <-  all_data_daily %>% pivot_wider(names_from = Method, 
-                                                     values_from = !!sym(param))
+  x <-  all_data_daily %>% dplyr::pivot_wider(names_from = Method, 
+                                              values_from = !!sym(param))
   
   if (!is.na(output)) {
     readr::write_csv(x, file = output) }
@@ -823,10 +823,10 @@ create_model <- function(modeldata = create_model_data(),
   modeldata.Test <- setdiff(modeldata.narm, modeldata.Train) #test model on remaining 20% of data
   
   #Create model from train data, test on test data
-  mod <- lm(sensor ~ satellite, data = modeldata.Train)
+  mod <- stats::lm(sensor ~ satellite, data = modeldata.Train)
   summary(mod)
   plot(mod)
-  model.Prediction <- as.vector(predict(mod, modeldata.Test))
+  model.Prediction <- as.vector(stats::predict(mod, modeldata.Test))
   
   if (!is.na(output)) {
     saveRDS(mod, file = output) }
@@ -849,7 +849,7 @@ predict_data <- function(model = create_model(),
                               output = NA
                               ){
 
-  predicted <- as.vector(predict(model, modeldata)) 
+  predicted <- as.vector(stats::predict(model, modeldata)) 
   alldata <- data.frame(modeldata, predicted)
   
   if (!is.na(output)) {
