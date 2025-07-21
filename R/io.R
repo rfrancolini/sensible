@@ -797,8 +797,8 @@ create_model_data <- function(sensordata = example_filename_sensor(),
   all_data_daily <- rbind(sensordata_daily, satdata)
   
   ###reformat data so temperature for each method is in different column
-  x <-  all_data_daily %>% tidyverse::pivot_wider(names_from = Method, 
-                                              values_from = !!sym(param))
+  x <- all_data_daily %>% tidyr::pivot_wider(names_from = Method, 
+                                      values_from = !!sym(param))
   
   if (!is.na(output)) {
     readr::write_csv(x, file = output) }
@@ -818,7 +818,7 @@ create_model <- function(modeldata = create_model_data(),
                               output = NA
                               ){
   
-  modeldata.narm <- modeldata %>% na.omit() #remove na
+  modeldata.narm <- modeldata %>% stats::na.omit() #remove na
   modeldata.Train <- dplyr::sample_frac(modeldata.narm, size = 0.8) #create model based on 80% of data
   modeldata.Test <- setdiff(modeldata.narm, modeldata.Train) #test model on remaining 20% of data
   

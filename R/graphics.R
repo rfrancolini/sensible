@@ -394,12 +394,45 @@ draw_satsensor_plot <- function(x = predict_data(),
   
   gg <- ggplot2::ggplot(data = x, ggplot2::aes(x = .data$sensor, y = .data$satellite)) +
     ggplot2::geom_point() +
+    ggplot2::stat_smooth( method = "lm") +
+    ggpmisc::stat_poly_eq(ggpmisc::use_label(c("eq", "R2"))) +
     ggplot2::labs(title = main, x = xlabel, y = ylabel)
   
   gg
 }
 
 
+#' Plot sensor vs. satellite data
+#'
+#' @export
+#' @param x tibble of sensor & satellite model data
+#' @param param chatacter, parameter being measured
+#' @param main character, title
+#' @param xlabel character, title of xaxis
+#' @param ylabel character, title of yaxis
+#' @param ... further arguments passed to \code{\link[ggplot2]{theme}}
+#' @return ggplot2 object
 
+draw_model_plot <- function(x = predict_data(),
+                                param = "Temp",
+                                main = "Sensor, Satellite, & Predicted Temperature Allen Island",
+                                xlabel = "Date",
+                                ylabel = "Temperature (Degrees C)",
+                                ...){
+  
+  x2 <- x %>%
+    tidyr::pivot_longer(!DateTime, names_to = "Method", values_to = param)
+  
+  third_col <- names(x2)[3]
+  
+gg <- ggplot(x2, aes(x = DateTime, y = .data[[param]], color = Method)) +
+  geom_point() +
+  scale_color_manual(values = c('#004488', '#BB5566','#DDAA33'),
+                     name = "Method")+
+  theme_bw() +
+  labs(title = main) +
+  xlab(xlabel) +
+  ylab(ylabel)
+gg
 
-
+}
