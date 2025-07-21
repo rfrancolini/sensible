@@ -25,4 +25,7 @@ Imports:
   rlang,
   zoo,
   tsibble,
-  mesowest
+  mesowest,
+  ggpmisc,
+  caret,
+  tidyr
