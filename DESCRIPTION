@@ -20,11 +20,8 @@ Imports:
   ggridges,
   viridis,
   oceanwaves,
-  oce,
   owhlR,
-  zoo,
-  tsibble,
   mesowest,
   ggpmisc,
-  caret,
-  tidyr
+  tidyr,
+  clifro

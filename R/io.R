@@ -784,9 +784,9 @@ create_model_data <- function(sensordata = example_filename_sensor(),
   second_col <- names(sensordata)[2]
   
   sensordata_daily <- sensordata %>%
-    dplyr::mutate(DateTime = format(as.POSIXct(DateTime, format = "%Y/%m/%d %H:%M:%S"),
+    dplyr::mutate(DateTime = format(as.POSIXct(.data$DateTime, format = "%Y/%m/%d %H:%M:%S"),
                              format = "%m/%d/%Y")) %>%
-    dplyr::group_by(DateTime) %>%
+    dplyr::group_by(.data$DateTime) %>%
     dplyr::summarise(!!param := mean(.data[[second_col]])) %>% 
     dplyr::mutate(Method = "sensor") %>%
     dplyr::ungroup()
@@ -797,7 +797,7 @@ create_model_data <- function(sensordata = example_filename_sensor(),
   all_data_daily <- rbind(sensordata_daily, satdata)
   
   ###reformat data so temperature for each method is in different column
-  x <- all_data_daily %>% tidyr::pivot_wider(names_from = Method, 
+  x <- all_data_daily %>% tidyr::pivot_wider(names_from = .data$Method, 
                                       values_from = !!sym(param))
   
   if (!is.na(output)) {

@@ -301,8 +301,8 @@ draw_uv <- function(x = read_tiltometer(),
                          xlim = r,
                          ylim = r) +
     ggplot2::labs(title = main) +
-    ggplot2::geom_segment(ggplot2::aes(x = x0,
-                                       y = y0,
+    ggplot2::geom_segment(ggplot2::aes(x = .data$x0,
+                                       y = .data$y0,
                                        xend = .data$u,
                                        yend = .data$v),
                           alpha = alpha[1])
@@ -394,7 +394,7 @@ draw_satsensor_plot <- function(x = predict_data(),
   
   gg <- ggplot2::ggplot(data = x, ggplot2::aes(x = .data$sensor, y = .data$satellite)) +
     ggplot2::geom_point() +
-    ggplot2::stat_smooth( method = "lm") +
+    ggplot2::stat_smooth(method = "lm") +
     ggpmisc::stat_poly_eq(ggpmisc::use_label(c("eq", "R2"))) +
     ggplot2::labs(title = main, x = xlabel, y = ylabel)
   
@@ -421,18 +421,18 @@ draw_model_plot <- function(x = predict_data(),
                                 ...){
   
   x2 <- x %>%
-    tidyr::pivot_longer(!DateTime, names_to = "Method", values_to = param)
+    tidyr::pivot_longer(!.data$DateTime, names_to = "Method", values_to = param)
   
   third_col <- names(x2)[3]
   
-gg <- ggplot(x2, aes(x = DateTime, y = .data[[param]], color = Method)) +
-  ggplot::geom_point() +
-  ggplot::scale_color_manual(values = c('#004488', '#BB5566','#DDAA33'),
+gg <- ggplot2::ggplot(x2, ggplot2::aes(x = .data$DateTime, y = .data[[param]], color = .data$Method)) +
+  ggplot2::geom_point() +
+  ggplot2::scale_color_manual(values = c('#004488', '#BB5566','#DDAA33'),
                      name = "Method")+
-  ggplot::theme_bw() +
-  ggplot::labs(title = main) +
-  ggplot::xlab(xlabel) +
-  ggplot::ylab(ylabel)
+  ggplot2::theme_bw() +
+  ggplot2::labs(title = main) +
+  ggplot2::xlab(xlabel) +
+  ggplot2::ylab(ylabel)
 
 gg
 

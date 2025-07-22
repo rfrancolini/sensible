@@ -9,6 +9,8 @@
 #' @importFrom rlang .data
 #' @importFrom stats na.omit
 #' @importFrom utils unzip
+#' @importFrom rlang :=
+#' @importFrom rlang sym
 #' @importFrom stats window
 #' @importFrom utils read.csv
 "_PACKAGE"
