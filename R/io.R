@@ -12,7 +12,7 @@ example_filename_temp <- function(){
 #' @export
 #' @return filename
 example_filename_tilt <- function(){
-  system.file("exampledata/2102053_LittleDrisko_TCM_Current.zip",
+  system.file("exampledata/CapeSmall_TCM_C_2022.csv",
               package="sensible")
 }
 

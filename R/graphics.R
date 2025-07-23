@@ -223,7 +223,7 @@ tiltometer_rose <- function(x = read_tiltometer(),
   
   #https://math.stackexchange.com/questions/1319615/how-to-calculate-opposite-direction-angle
   
-  site <- factor(x$Site)
+  #site <- factor(x$Site)
   
   if (inherits(speed.cuts, "character") || is.na(speed.cuts)){
     
@@ -237,14 +237,12 @@ tiltometer_rose <- function(x = read_tiltometer(),
                           x$dir,
                           legend_title = legend_title,
                           speed_cuts = speed.cuts,
-                          facet = site,
                           ...)
   } else {
     
     gg = clifro::windrose(x$speed,
                           x$dir,
                           legend_title = legend_title,
-                          facet = site,
                           ...)
   }
   
