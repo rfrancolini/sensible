@@ -375,32 +375,49 @@ a <- example_airpressure()
 head(a)
 ```
 
-    ##   DateTime sea_pressure.mbar
-    ## 1     <NA>           1022.05
-    ## 2     <NA>           1022.05
-    ## 3     <NA>           1022.05
-    ## 4     <NA>           1022.05
-    ## 5     <NA>           1022.06
-    ## 6     <NA>           1022.06
+    ##              DateTime sea_pressure.mbar
+    ## 1 2021-05-16 00:00:00           1022.05
+    ## 2 2021-05-16 00:05:00           1022.05
+    ## 3 2021-05-16 00:10:00           1022.05
+    ## 4 2021-05-16 00:15:00           1022.05
+    ## 5 2021-05-16 00:20:00           1022.06
+    ## 6 2021-05-16 00:25:00           1022.06
 
 #### Calculate Wave Statistcs
 
 ``` r
-#i <- interp_swpressure(wavelogger = x, airpressure = a)
+i <- interp_swpressure(wavelogger = x, airpressure = a)
 
-#w <- wave_stats(wavelogger = mbar_to_elevation(wavelogger = i)) 
+w <- wave_stats(wavelogger = mbar_to_elevation(wavelogger = i)) 
 
-#head(w)
+head(w)
 ```
+
+    ##          h       Hm0        Tp          m0    T_0_1    T_0_2      EPS2
+    ## 1 5.311525 0.1391045 11.428571 0.001209379 7.467398 6.625700 0.5198161
+    ## 2 5.400873 0.1385070 11.612903 0.001199012 7.563648 6.702864 0.5228120
+    ## 3 5.577315 0.1414778 10.434783 0.001250998 7.327396 6.485607 0.5257691
+    ## 4 5.830439 0.1529073 12.413793 0.001461291 7.138421 6.348096 0.5142914
+    ## 5 6.168788 0.1464905 12.000000 0.001341216 6.627873 5.910600 0.5073796
+    ## 6 6.532976 0.1492757  8.674699 0.001392702 6.299749 5.659775 0.4888088
+    ##        EPS4            DateTime
+    ## 1 0.7483700 2021-05-16 00:30:00
+    ## 2 0.7543657 2021-05-16 01:00:00
+    ## 3 0.7467871 2021-05-16 01:30:00
+    ## 4 0.7373126 2021-05-16 02:00:00
+    ## 5 0.7135647 2021-05-16 02:30:00
+    ## 6 0.6908076 2021-05-16 03:00:00
 
 ### Function: wavespec_plot()
 
 #### Significant Wave Height Example Plot
 
 ``` r
-#wave_plot <- wavespec_plot(w)
-#wave_plot
+wave_plot <- wavespec_plot(w)
+wave_plot
 ```
+
+![](README_files/figure-gfm/GraphWaves-1.png)<!-- -->
 
 ## PAR Data (PAR Odyssey Xtreem)
 
@@ -528,18 +545,18 @@ summary(model)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.6283 -0.8241 -0.0868  1.1431  2.7793 
+    ## -3.4936 -0.9211 -0.1351  1.1743  2.7421 
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)  2.45364    0.16761   14.64   <2e-16 ***
-    ## satellite    0.68481    0.01256   54.51   <2e-16 ***
+    ## (Intercept)  2.57934    0.17441   14.79   <2e-16 ***
+    ## satellite    0.67200    0.01291   52.06   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 1.3 on 361 degrees of freedom
-    ## Multiple R-squared:  0.8917, Adjusted R-squared:  0.8914 
-    ## F-statistic:  2972 on 1 and 361 DF,  p-value: < 2.2e-16
+    ## Residual standard error: 1.348 on 361 degrees of freedom
+    ## Multiple R-squared:  0.8824, Adjusted R-squared:  0.8821 
+    ## F-statistic:  2710 on 1 and 361 DF,  p-value: < 2.2e-16
 
 ``` r
 modelresult <- predict_data(model = model, modeldata = modeldat) 
@@ -547,12 +564,12 @@ head(modelresult)
 ```
 
     ##     DateTime   sensor satellite predicted
-    ## 1 2023-01-01 8.541375  6.782007  7.098016
-    ## 2 2023-01-02 8.416854  6.337000  6.793272
-    ## 3 2023-01-03 8.437542  6.162012  6.673438
-    ## 4 2023-01-04 8.433583  6.353998  6.804912
-    ## 5 2023-01-05 8.302479  6.563989  6.948716
-    ## 6 2023-01-06 8.023813  5.960992  6.535779
+    ## 1 2023-01-01 8.541375  6.782007  7.136837
+    ## 2 2023-01-02 8.416854  6.337000  6.837793
+    ## 3 2023-01-03 8.437542  6.162012  6.720201
+    ## 4 2023-01-04 8.433583  6.353998  6.849215
+    ## 5 2023-01-05 8.302479  6.563989  6.990329
+    ## 6 2023-01-06 8.023813  5.960992  6.585116
 
 ### Function: draw_satsensor_plot()
 

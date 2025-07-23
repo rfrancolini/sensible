@@ -282,7 +282,7 @@ example_airpressure <- function(){
   x <- read.csv(system.file("exampledata/KRKD_MesoWest_LittleDris.csv",
                             package = "sensible"))
   x <- na.omit(x)
-  x$DateTime = as.POSIXct(x$DateTime, format = "%Y-%m-%dT%H:%M:%S", tz = 'UTC')
+  x$DateTime = as.POSIXct(x$DateTime, format = "%Y-%m-%d %H:%M:%S", tz = 'UTC')
   return(x)
 }
 

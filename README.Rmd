@@ -208,11 +208,11 @@ head(a)
 #### Calculate Wave Statistcs
 
 ```{r WaveStats}
-#i <- interp_swpressure(wavelogger = x, airpressure = a)
+i <- interp_swpressure(wavelogger = x, airpressure = a)
 
-#w <- wave_stats(wavelogger = mbar_to_elevation(wavelogger = i)) 
+w <- wave_stats(wavelogger = mbar_to_elevation(wavelogger = i)) 
 
-#head(w)
+head(w)
 ```
 
 ### Function: wavespec_plot()
@@ -220,8 +220,8 @@ head(a)
 #### Significant Wave Height Example Plot
 
 ```{r GraphWaves}
-#wave_plot <- wavespec_plot(w)
-#wave_plot
+wave_plot <- wavespec_plot(w)
+wave_plot
 ```
 
 
