@@ -264,14 +264,12 @@ tiltometer_rose <- function(x = read_tiltometer(),
 #' @param x tibble of tiltometer data
 #' @param min_speed numeric, hide currents at or below this speed
 #' @param alpha numeric, 0.1 default
-#' @param facet character, name of the column to facet upon (like "Site") or NULL to skip
 #' @param main character, title
 #' @return ggplot2 object
 draw_uv <- function(x = read_tiltometer(),
                     min_speed = 10,
                     main = "U-V currents",
-                    facet = NULL,
-                    alpha = 0.1){
+                    alpha = 0.4){
   
   
   normalizeSite <- function(x, key, min_speed = 10) {
@@ -287,7 +285,6 @@ draw_uv <- function(x = read_tiltometer(),
   }
   
   x <- x %>%
-    dplyr::group_by(.data$Site) %>%
     dplyr::arrange(.data$DateTime) %>%
     dplyr::group_map(normalizeSite, .keep = TRUE, min_speed = min_speed) %>%
     dplyr::bind_rows()
@@ -306,10 +303,6 @@ draw_uv <- function(x = read_tiltometer(),
                                        xend = .data$u,
                                        yend = .data$v),
                           alpha = alpha[1])
-  
-  if (!is.null(facet)){
-    gg <- gg + ggplot2::facet_wrap(facet)
-  }
   
   gg
 }

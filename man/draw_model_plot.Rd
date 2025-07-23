@@ -7,7 +7,7 @@
 draw_model_plot(
   x = predict_data(),
   param = "Temp",
-  main = "Sensor, Satellite, & Predicted Temperature Allen Island",
+  main = "Sensor, Satellite, & Predicted Temp",
   xlabel = "Date",
   ylabel = "Temperature (Degrees C)",
   ...

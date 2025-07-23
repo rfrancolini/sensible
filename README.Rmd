@@ -166,8 +166,8 @@ This will produce a basic UV plot of the tilt current data.
 #### Draw example UV plot
 
 ```{r uvplot}
-#uv <- draw_uv(x)
-#uv
+uv <- draw_uv(x)
+uv
 ```
 
 ### Function: tiltometer_rose()

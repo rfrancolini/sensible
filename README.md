@@ -319,9 +319,11 @@ This will produce a basic UV plot of the tilt current data.
 #### Draw example UV plot
 
 ``` r
-#uv <- draw_uv(x)
-#uv
+uv <- draw_uv(x)
+uv
 ```
+
+![](README_files/figure-gfm/uvplot-1.png)<!-- -->
 
 ### Function: tiltometer_rose()
 
@@ -525,18 +527,18 @@ summary(model)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.5541 -0.8568 -0.1630  1.1969  2.8383 
+    ## -3.6216 -0.8397 -0.0798  1.1582  2.7799 
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)  2.45217    0.17588   13.94   <2e-16 ***
-    ## satellite    0.68128    0.01294   52.65   <2e-16 ***
+    ## (Intercept)  2.47645    0.17179   14.42   <2e-16 ***
+    ## satellite    0.68337    0.01297   52.67   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 1.355 on 361 degrees of freedom
+    ## Residual standard error: 1.36 on 361 degrees of freedom
     ## Multiple R-squared:  0.8848, Adjusted R-squared:  0.8845 
-    ## F-statistic:  2772 on 1 and 361 DF,  p-value: < 2.2e-16
+    ## F-statistic:  2774 on 1 and 361 DF,  p-value: < 2.2e-16
 
 ``` r
 modelresult <- predict_data(model = model, modeldata = modeldat) 
@@ -544,12 +546,12 @@ head(modelresult)
 ```
 
     ##     DateTime   sensor satellite predicted
-    ## 1 2023-01-01 8.541375  6.782007  7.072593
-    ## 2 2023-01-02 8.416854  6.337000  6.769420
-    ## 3 2023-01-03 8.437542  6.162012  6.650205
-    ## 4 2023-01-04 8.433583  6.353998  6.781001
-    ## 5 2023-01-05 8.302479  6.563989  6.924063
-    ## 6 2023-01-06 8.023813  5.960992  6.513255
+    ## 1 2023-01-01 8.541375  6.782007  7.111096
+    ## 2 2023-01-02 8.416854  6.337000  6.806990
+    ## 3 2023-01-03 8.437542  6.162012  6.687408
+    ## 4 2023-01-04 8.433583  6.353998  6.818606
+    ## 5 2023-01-05 8.302479  6.563989  6.962109
+    ## 6 2023-01-06 8.023813  5.960992  6.550036
 
 ### Function: draw_satsensor_plot()
 
