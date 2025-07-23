@@ -178,8 +178,7 @@ This will produce a windrose plot of the tilt current data
 
 ```{r windrose}
 
-#month <- droplevels(factor(format(x$date, "%b"), levels = month.abb))
-#tiltometer_rose(x, facet = month, n_col = 2, speed.cuts = "quantile-4")
+tiltometer_rose(x, speed.cuts = "quantile-4")
 
 
 ```
