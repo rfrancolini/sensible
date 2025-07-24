@@ -7,7 +7,13 @@ sensible
 - [dplyr](https://CRAN.R-project.org/package=dplyr)
 - [readr](https://CRAN.R-project.org/package=readr)
 - [stringr](https://CRAN.R-project.org/package=stringr)
+- [stats](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/00Index.html)
 - [ggplot2](https://CRAN.R-project.org/package=ggplot2)
+- [ggridges](https://CRAN.R-project.org/package=ggridges)
+- [ggpmisc](https://CRAN.R-project.org/package=ggpmisc)
+- [tidyr](https://CRAN.R-project.org/package=tidyr)
+- [viridis](https://CRAN.R-project.org/package=viridis)
+- [rlang](https://CRAN.R-project.org/package=rlang)
 - [lubridate](https://CRAN.R-project.org/package=lubridate)
 - [clifro](https://CRAN.R-project.org/package=clifro)
 - [lubridate](https://CRAN.R-project.org/package=lubridate)
@@ -24,26 +30,29 @@ sensible
 
 This package is built to aid in the processing and summarizing of
 various environmental sensors. Initially created to streamline the
-QA/QC-ing of the following sensors - (1) Onset’s HOBO Temperature
-Logger, (2) Lowell Instrument’s Tilt Current Meter, (3) Dataflow
-Systems’ Odyssey Xtreem PAR Logger, and (4) the Open Wave Height
-Logger - the functions can be used on any sensors that have similar data
-structure. All of the previously mentioned sensors often have their own
-programs that pre-process data and output them in a csv format. However,
-one detail that the sensor-specific program may not process is when the
-sensor was turned on to start recording versus when the sensor was
-deployed. This package allows the user to define what time points they
-want to analyze the data for, eliminating noise at the start and stop of
-the data files.
+QA/QC-ing of the following sensors - (1) [Onset’s HOBO Temperature
+Logger](https://www.onsetcomp.com/products/data-loggers/ua-002-64), (2)
+[Lowell Instrument’s Tilt Current
+Meter](https://lowellinstruments.com/), (3) [Dataflow Systems’ Odyssey
+Xtreem PAR
+Logger](http://odysseydatarecording.com/index.php?route=product/product&product_id=100),
+and (4) the [Open Wave Height Logger](https://owhl.org/) - the functions
+can be used on any sensors that have similar data structure. All of the
+previously mentioned sensors often have their own programs that
+pre-process data and output them in a csv format. However, one detail
+that the sensor-specific program may not process is when the sensor was
+turned on to start recording versus when the sensor was deployed. This
+package allows the user to define what time points they want to analyze
+the data for, eliminating noise at the start and stop of the data files.
 
 This package also has multiple plotting functions to aid in the
-visualization of the data. Scatter plots with smoothed lines are
-included for most sensors. Additionally, the temperature data can also
-be plotted as a ridgeline plot, and the tilt current meter data can be
-plotted as a wind rose diagram as a more dynamic way to visualize these
-data. Even if data has not been processed with the read\_…() functions,
-plotting functions can be used as long as they are structured the same
-way as the output of the read\_…() functions.
+visualization of the data. Scatter plots with smoothed lines or line
+graphs are included for most sensors. Additionally, the temperature data
+can also be plotted as a ridgeline plot, and the tilt current meter data
+can be plotted as a wind rose diagram as a more dynamic way to visualize
+these data. Even if data has not been processed with the `read_...()`
+functions, plotting functions can be used as long as they are structured
+the same way as the output of the `read_...()` functions.
 
 In addition to processing and summarizing the data gathered via the
 sensors, this package has functions that will generate a linear model
@@ -67,7 +76,7 @@ year-round data to implement in downstream applications.
 This is to be used after initial downloading of data onto a computer
 using the HOBOware program.
 
-### Function: read_hobotemp()
+### Function: `read_hobotemp()`
 
 This will function on any HOBO data that has been downloaded in csv
 format (not hproj format), or temperature data that has the same initial
@@ -147,9 +156,10 @@ xud
     ## 10     542 2021-05-20 02:19:32  8.78         0 LittleDrisko
     ## # ℹ 1,142 more rows
 
-### Function: summarize_hobotemp()
+### Function: `summarize_hobotemp()`
 
-Create a dataframe summarizing the temperature data, will group by site.
+Create a dataframe summarizing the temperature data, will group by site
+if more than one present.
 
 #### Summarize data, csv with one site
 
@@ -196,7 +206,7 @@ print.data.frame(sum2)
     ## 4 2021-07-08 10:00:00    8.779 2021-06-08 07:00:00
     ## 5 2021-07-16 18:45:00    9.077 2021-06-10 05:15:00
 
-### Function: draw_temp_scatter_plot()
+### Function: `draw_temp_scatter_plot()`
 
 This function will read in a csv of your HOBO data and draw a scatter
 plot with an overlapping trendline.
@@ -219,7 +229,7 @@ tempplot_xud
 
 ![](README_files/figure-gfm/tempplot_ud-1.png)<!-- -->
 
-### Function: draw_ridgeline_plot()
+### Function: `draw_ridgeline_plot()`
 
 This function will create a color-coded ridgeline plot, adapted from
 [here](https://r-graph-gallery.com/294-basic-ridgeline-plot.html). This
@@ -247,7 +257,7 @@ ridgelineplotO
 
 ![](README_files/figure-gfm/ridgelineOrdered-1.png)<!-- -->
 
-### Function: draw_temp_line_plot()
+### Function: `draw_temp_line_plot()`
 
 This function will create a line plot, with a colorblind friendly color
 pallette, and can currently take up to 15 sites at once. Sites will
@@ -278,7 +288,7 @@ lineplotO
 This is to be used after initial downloading of data onto a computer
 using the Domino program.
 
-### Function: read_tiltometer()
+### Function: `read_tiltometer()`
 
 This function will take in raw tilt current meter data and output a csv.
 Options include (1) whether you want to define a site name (if not, it
@@ -312,7 +322,7 @@ x
     ## 10 2022-04-16 00:18:00  2.41  56.6  1.32  2.01
     ## # ℹ 87,111 more rows
 
-### Function: draw_uv()
+### Function: `draw_uv()`
 
 This will produce a basic UV plot of the tilt current data.
 
@@ -325,7 +335,7 @@ uv
 
 ![](README_files/figure-gfm/uvplot-1.png)<!-- -->
 
-### Function: tiltometer_rose()
+### Function: `tiltometer_rose()`
 
 This will produce a windrose plot of the tilt current data
 
@@ -346,9 +356,12 @@ of wave height data, the following three functions must be run
 sequentially, as it requires reading in the raw wave data, reading in
 air pressure data (based on
 [mesowest](https://github.com/fickse/mesowest)), and using these two
-data streams to calculate wave pressure.
+data streams to calculate wave pressure. For the ease of an example, we
+use a previously dowloaded air pressure dataset in the following
+example, however, the “read_airpressure()” function will aid in grabbing
+data from the mesowest dataset.
 
-### Functions: read_wavelogger(), read_airpressure(), interp_swpressure(), wave_stats()
+### Functions: `read_wavelogger()`, `read_airpressure()`, `interp_swpressure()`, `wave_stats()`
 
 #### Read Example Data
 
@@ -408,7 +421,7 @@ head(w)
     ## 5 0.7135647 2021-05-16 02:30:00
     ## 6 0.6908076 2021-05-16 03:00:00
 
-### Function: wavespec_plot()
+### Function: `wavespec_plot()`
 
 #### Significant Wave Height Example Plot
 
@@ -424,7 +437,7 @@ wave_plot
 This is to be used after initial downloading of data onto a computer
 using the Xtract program.
 
-### Function: read_parXtreem()
+### Function: `read_parXtreem()`
 
 This function will take in PAR data and output a csv. Options include
 (1) whether you want to define a site name (if not, it will pull it from
@@ -458,7 +471,7 @@ x
     ## 10  7.5   364. FE23BC74DC01  1621030500 2021-05-14 22:15:00
     ## # ℹ 9,111 more rows
 
-### Function: draw_par_plot()
+### Function: `draw_par_plot()`
 
 This function will read in a csv of your PAR data and draw a line plot.
 
@@ -485,14 +498,16 @@ parplot_xud
 
 ## Generating Sensor-Satellite Models
 
-The generation of these models is dependant on the user supplying
+The generation of these models is dependent on the user supplying
 satellite data they have downloaded and formatted as two columns - (1)
 date/time, (2) environmental parameter of interest. We have previously
-used this on temperature data using MURSST satellite dataset and ECMWF
-wave dataset. To complete the model generating and prediction process,
-the following three functions need to be run sequentially.
+used this on temperature data using
+[MURSST](https://podaac.jpl.nasa.gov/MEaSUREs-MUR) satellite dataset and
+[ECMWF](https://www.ecmwf.int/) wave dataset. To complete the model
+generating and prediction process, the following three functions need to
+be run sequentially.
 
-### Functions: create_model_data(), create_model(), predict_data()
+### Functions: `create_model_data()`, `create_model()`, `predict_data()`
 
 ``` r
 modeldat <- create_model_data()
@@ -545,18 +560,18 @@ summary(model)
     ## 
     ## Residuals:
     ##     Min      1Q  Median      3Q     Max 
-    ## -3.4936 -0.9211 -0.1351  1.1743  2.7421 
+    ## -3.6704 -0.8536 -0.1173  1.1214  2.7351 
     ## 
     ## Coefficients:
     ##             Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)  2.57934    0.17441   14.79   <2e-16 ***
-    ## satellite    0.67200    0.01291   52.06   <2e-16 ***
+    ## (Intercept)  2.50567    0.16916   14.81   <2e-16 ***
+    ## satellite    0.68433    0.01258   54.38   <2e-16 ***
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 1.348 on 361 degrees of freedom
-    ## Multiple R-squared:  0.8824, Adjusted R-squared:  0.8821 
-    ## F-statistic:  2710 on 1 and 361 DF,  p-value: < 2.2e-16
+    ## Residual standard error: 1.313 on 361 degrees of freedom
+    ## Multiple R-squared:  0.8912, Adjusted R-squared:  0.8909 
+    ## F-statistic:  2957 on 1 and 361 DF,  p-value: < 2.2e-16
 
 ``` r
 modelresult <- predict_data(model = model, modeldata = modeldat) 
@@ -564,45 +579,26 @@ head(modelresult)
 ```
 
     ##     DateTime   sensor satellite predicted
-    ## 1 2023-01-01 8.541375  6.782007  7.136837
-    ## 2 2023-01-02 8.416854  6.337000  6.837793
-    ## 3 2023-01-03 8.437542  6.162012  6.720201
-    ## 4 2023-01-04 8.433583  6.353998  6.849215
-    ## 5 2023-01-05 8.302479  6.563989  6.990329
-    ## 6 2023-01-06 8.023813  5.960992  6.585116
+    ## 1 2023-01-01 8.541375  6.782007  7.146782
+    ## 2 2023-01-02 8.416854  6.337000  6.842251
+    ## 3 2023-01-03 8.437542  6.162012  6.722502
+    ## 4 2023-01-04 8.433583  6.353998  6.853883
+    ## 5 2023-01-05 8.302479  6.563989  6.997586
+    ## 6 2023-01-06 8.023813  5.960992  6.584939
 
-### Function: draw_satsensor_plot()
+### Function: `draw_satsensor_plot()`
 
 This will plot your satellite data and sensor data to see the
 relationship between the two datasets
 
 ``` r
 ssplot <- draw_satsensor_plot(x = modelresult)
-```
-
-    ## Registered S3 methods overwritten by 'ggpp':
-    ##   method                  from   
-    ##   heightDetails.titleGrob ggplot2
-    ##   widthDetails.titleGrob  ggplot2
-
-``` r
 ssplot
 ```
 
-    ## `geom_smooth()` using formula = 'y ~ x'
-
-    ## Warning: Removed 930 rows containing non-finite outside the scale range
-    ## (`stat_smooth()`).
-
-    ## Warning: Removed 930 rows containing non-finite outside the scale range
-    ## (`stat_poly_eq()`).
-
-    ## Warning: Removed 930 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
-
 ![](README_files/figure-gfm/satsensor_plot-1.png)<!-- -->
 
-### Function: draw_satsensor_plot()
+### Function: `draw_model_plot()`
 
 This will plot your two datastreams over time, as well as your predicted
 data from the model
@@ -611,8 +607,5 @@ data from the model
 modplot <- draw_model_plot(x = modelresult)
 modplot
 ```
-
-    ## Warning: Removed 930 rows containing missing values or values outside the scale range
-    ## (`geom_point()`).
 
 ![](README_files/figure-gfm/model_plot-1.png)<!-- -->

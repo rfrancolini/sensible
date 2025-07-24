@@ -1,6 +1,6 @@
 ---
-title: "sensible"
-output: github_document
+title: "Sensible: An R Package to Make Sense of your Sensor Data"
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
@@ -44,14 +44,14 @@ This package also has multiple plotting functions to aid in the visualization of
 
 In addition to processing and summarizing the data gathered via the sensors, this package has functions that will generate a linear model using the sensor data and corresponding satellite data. In carrying out our research using our sensors deployed at each site, we realized that while the sensors were providing us a more precise at-depth measurement at our specific sites than satellite data may provide (due to the coarse-grain nature of satellite data), we were lacking many days of data due to having to remove the sensors in the winter months, malfunctioning sensors, or batteries expiring partway through deployment. Instead of scrapping the sensor data we had in hand, we opted to create a model correlating satellite data for a specific site and the data gathered from the sensor deployed at this site. With the generated model, we were then able to predict what the sensor would have registered on the days where it was not in the water. This way, we were able to still use site-specific "at-depth" measurements, and have year-round data to implement in downstream applications. 
 
-## Temperature Data (Onset HOBO Temperature Loggers)
+# Temperature Data (Onset HOBO Temperature Loggers)
 This is to be used after initial downloading of data onto a computer using the  HOBOware program.
 
-### Function: `read_hobotemp()`
+## Function: `read_hobotemp()`
 
 This will function on any HOBO data that has been downloaded in csv format (not hproj format), or temperature data that has the same initial format as HOBO temperature logger data, and output a csv. Options include (1) whether you want to define a site name (if not, it will pull it from the file name), (2) if you want to define the start/stop times, have it automatically remove the first and last day (default setting), or keep all of the data, and (3) if you want to write a file with a specific output name.
 
-#### Read Example Data
+### Read Example Data
 
 ```{r exampletemp}
 library(sensible)
@@ -59,7 +59,7 @@ x <- read_hobotemp()
 x
 ```
 
-#### Read Example Data with User Defined Site
+### Read Example Data with User Defined Site
 
 ``` {r exampleSiteName}
 library(sensible)
@@ -67,7 +67,7 @@ x <- read_hobotemp(site = "Little Drisko Island")
 x
 ```
 
-#### Read Example Data With User Defined Start/Stop Dates
+### Read Example Data With User Defined Start/Stop Dates
 
 ```{r exampletempStartStop}
 ss <- as.POSIXct(c("2021-05-20", "2021-06-01"), tz = "UTC")
@@ -75,90 +75,113 @@ xud <- read_hobotemp(clipped = "user", startstop = ss)
 xud
 ```
 
-### Function: `summarize_hobotemp()`
+## Function: `summarize_hobotemp()`
 
 Create a dataframe summarizing the temperature data, will group by site if more than one present.
 
-#### Summarize data, csv with one site
+### Summarize data, csv with one site
 ```{r ldSummary}
 sum1 <- summarize_hobotemp(x)
 print.data.frame(sum1)
 ```
 
-#### Summarize data, csv with more than one site
+### Summarize data, csv with more than one site
 ```{r msSummary}
 sum2 <- summarize_hobotemp(example_ridge_data())
 print.data.frame(sum2)
 ```
 
+\newpage
 
-### Function: `draw_temp_scatter_plot()`
+## Function: `draw_temp_scatter_plot()`
 
 This function will read in a csv of your HOBO data and draw a scatter plot with an overlapping trendline. 
 
-#### Draw Example Scatter Plot
+### Draw Example Scatter Plot
 
 ```{r tempplot, message=FALSE}
 tempplot_x <- draw_temp_scatter_plot(x)
+```
+
+```{r showtempplot, fig.height=3.5, fig.width = 5, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 tempplot_x
 ```
 
-#### Draw Example Scatter Plot with User Defined Start/Stop Dates and Title
+\newpage
+
+### Draw Example Scatter Plot with User Defined Start/Stop Dates and Title
 
 ```{r tempplot_ud, message=FALSE}
 tempplot_xud <- draw_temp_scatter_plot(xud, main = "Temperature at Depth, End of May")
+```
+```{r showtempplotud, fig.height=3.5, fig.width = 5, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 tempplot_xud
 ```
 
-### Function: `draw_ridgeline_plot()`
+\newpage
+
+## Function: `draw_ridgeline_plot()`
 
 This function will create a color-coded ridgeline plot, adapted from [here](https://r-graph-gallery.com/294-basic-ridgeline-plot.html). This will have a line representing the temperature, as well as the space underneath the line colored in using a temperature gradient color scheme. Sites will appear in order they are in dataframe, unless "ordered" option is used.
 
-#### Draw example ridgeline plot
+### Draw example ridgeline plot
 
 ```{r ridgeline, message = FALSE}
 ridgelineplot <- draw_ridgeline_plot()
+```
+```{r showridgeplot, fig.height=4, fig.width = 6, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 ridgelineplot
 ```
 
-#### Draw example ridgeline plot with specified site order (south to north)
+\newpage
+
+### Draw example ridgeline plot with specified site order (south to north)
 
 ```{r ridgelineOrdered, message = FALSE}
 SiteOrder <-  c("Cape Liz", "Halfway Rock", "Damariscove", "Isle Au Haut", "Marshall")
 ridgelineplotO <- draw_ridgeline_plot(ordered = SiteOrder)
+```
+```{r showridgeplot2, fig.height=4, fig.width = 6, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 ridgelineplotO
 ```
 
-### Function: `draw_temp_line_plot()`
+\newpage
+
+## Function: `draw_temp_line_plot()`
 
 This function will create a line plot, with a colorblind friendly color pallette, and can currently take up to 15 sites at once. Sites will appear in legend (or will be facetted upon) in order they are in dataframe, unless "ordered" option is used.
 
-#### Draw example line plot
+### Draw example line plot
 
 ```{r line, message = FALSE}
 lineplot <- draw_temp_line_plot()
+```
+```{r showtemplineplot, fig.height=3.5, fig.width = 5, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 lineplot
 ```
 
-#### Draw example line plot facetted with specified site order (south to north)
+\newpage
+
+### Draw example line plot facetted with specified site order (south to north)
 
 ```{r lineOrdered, message = FALSE}
 SiteOrder <-  c("Cape Liz", "Halfway Rock", "Damariscove", "Isle Au Haut", "Marshall")
 lineplotO <- draw_temp_line_plot(ordered = SiteOrder, facet = "Site")
+```
+```{r showlineplot2, fig.height=3.5, fig.width = 5, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 lineplotO
 ```
 
+\newpage
 
-
-## Tilt-Current Meter Data (Lowell Instruments Tilt-Current Meter)
+# Tilt-Current Meter Data (Lowell Instruments Tilt-Current Meter)
 This is to be used after initial downloading of data onto a computer using the Domino program.
 
-### Function: `read_tiltometer()`
+## Function: `read_tiltometer()`
 
 This function will take in raw tilt current meter data and output a csv. Options include (1) whether you want to define a site name (if not, it will pull it from the file name), (2) if you want to define the start/stop times, have it automatically remove the first and last day (default setting), or keep all of the data, and (3) if you want to write a file with a specific output name. Example for the basic function is below, to see examples implementing defined start/stop times or specific sites, see read_hobotemp() documentation above.
 
-#### Read Example Data
-
+### Read Example Data
 
 ```{r exampletilt}
 library(sensible)
@@ -166,38 +189,43 @@ x <- read_tiltometer()
 x
 ```
 
-### Function: `draw_uv()`
+\newpage
+
+## Function: `draw_uv()`
 
 This will produce a basic UV plot of the tilt current data.
 
-#### Draw example UV plot
+### Draw example UV plot
 
 ```{r uvplot}
 uv <- draw_uv(x)
+```
+```{r showuvplot, fig.height=4.5, fig.width = 5, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 uv
 ```
 
-### Function: `tiltometer_rose()`
+\newpage
+
+## Function: `tiltometer_rose()`
 
 This will produce a windrose plot of the tilt current data
 
-#### Draw example windrose plot
+### Draw example windrose plot
 
-```{r windrose}
+```{r showwindrosw, fig.height=4.5, fig.width = 5, fig.align = "center", fig.show = "hold", warning=FALSE, message=FALSE}
 
 tiltometer_rose(x, speed.cuts = "quantile-4")
 
-
 ```
 
+\newpage
 
-
-## Wave Logger Data (Open Wave Height Loggers)
+# Wave Logger Data (Open Wave Height Loggers)
 This is to be used after the initial downloading of the zip files for an OWHL. The code to process the data is based on [owhlR](https://github.com/millerlp/owhlR). To complete the processing of wave height data, the following three functions must be run sequentially, as it requires reading in the raw wave data, reading in air pressure data (based on [mesowest](https://github.com/fickse/mesowest)), and using these two data streams to calculate wave pressure. For the ease of an example, we use a previously dowloaded air pressure dataset in the following example, however, the "read_airpressure()" function will aid in grabbing data from the mesowest dataset.
 
-### Functions: `read_wavelogger()`, `read_airpressure()`, `interp_swpressure()`, `wave_stats()`
+## Functions: `read_wavelogger()`, `read_airpressure()`, `interp_swpressure()`, `wave_stats()`
 
-#### Read Example Data
+### Read Example Data
 
 ```{r exampleData}
 library(sensible)
@@ -205,14 +233,14 @@ x <- read_wavelogger()
 head(x)
 ```
 
-#### Read Air Pressure Data Example
+### Read Air Pressure Data Example
 
 ```{r Airpressure}
 a <- example_airpressure()
 head(a)
 ```
 
-#### Calculate Wave Statistcs
+### Calculate Wave Statistcs
 
 ```{r WaveStats}
 i <- interp_swpressure(wavelogger = x, airpressure = a)
@@ -222,25 +250,30 @@ w <- wave_stats(wavelogger = mbar_to_elevation(wavelogger = i))
 head(w)
 ```
 
-### Function: `wavespec_plot()`
+\newpage
 
-#### Significant Wave Height Example Plot
+## Function: `wavespec_plot()`
+
+### Significant Wave Height Example Plot
 
 ```{r GraphWaves}
 wave_plot <- wavespec_plot(w)
+```
+```{r showwavesplot, fig.height=3.5, fig.width = 5, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 wave_plot
 ```
 
+\newpage
 
-## PAR Data (PAR Odyssey Xtreem)
+# PAR Data (PAR Odyssey Xtreem)
 
 This is to be used after initial downloading of data onto a computer using the Xtract program.
 
-### Function: `read_parXtreem()`
+## Function: `read_parXtreem()`
 
 This function will take in PAR data and output a csv. Options include (1) whether you want to define a site name (if not, it will pull it from the file name), (2) if you want to define the start/stop times, have it automatically remove the first and last day (default setting), or keep all of the data, and (3) if you want to write a file with a specific output name. Example for the basic function is below, to see examples implementing defined start/stop times or specific sites, see read_hobotemp() documentation above.
 
-#### Read Example Data
+### Read Example Data
 
 ```{r examplepar}
 library(sensible)
@@ -248,19 +281,25 @@ x <- read_parXtreem()
 x
 ```
 
-### Function: `draw_par_plot()`
+\newpage
+
+## Function: `draw_par_plot()`
 
 This function will read in a csv of your PAR data and draw a line plot.
 
 
-### Draw Example Plot
+## Draw Example Plot
 
 ```{r parplot}
 parplot_x <- draw_par_plot(x)
+```
+```{r showparplot, fig.height=3.5, fig.width = 5, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 parplot_x
 ```
 
-### Draw Example Plot User Defined Start/Stop Dates
+\newpage
+
+## Draw Example Plot User Defined Start/Stop Dates
 
 ```{r parplot_ud}
 
@@ -268,56 +307,61 @@ ss <- as.POSIXct(c("2021-05-20", "2021-06-01"), tz = "UTC")
 xud <- read_parXtreem(clipped = "user", startstop = ss)
 
 parplot_xud <- draw_par_plot(xud)
+```
+``` {r showparplot2, fig.height=3.5, fig.width = 5, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 parplot_xud
 ```
 
+\newpage
 
-## Generating Sensor-Satellite Models
+# Generating Sensor-Satellite Models
 
 The generation of these models is dependent on the user supplying satellite data they have downloaded and formatted as two columns - (1) date/time, (2) environmental parameter of interest. We have previously used this on temperature data using [MURSST](https://podaac.jpl.nasa.gov/MEaSUREs-MUR) satellite dataset and [ECMWF](https://www.ecmwf.int/) wave dataset. To complete the model generating and prediction process, the following three functions need to be run sequentially.
 
-### Functions: `create_model_data()`, `create_model()`, `predict_data()`
+## Functions: `create_model_data()`, `create_model()`, `predict_data()`
 
 ```{r modeldata}
-
 modeldat <- create_model_data()
 head(modeldat)
 ```
 
-
-```{r modelcreation}
-
+```{r modelcreation, message=FALSE, warning = FALSE, fig.keep='none'}
 model <- create_model(modeldata = modeldat)
+```
+
+```{r summarymodel}
 summary(model)
 ```
 
 ```{r modelprediction}
-
 modelresult <- predict_data(model = model, modeldata = modeldat) 
 head(modelresult)
 ```
 
-### Function: `draw_satsensor_plot()`
+\newpage
+
+## Function: `draw_satsensor_plot()`
 
 This will plot your satellite data and sensor data to see the relationship between the two datasets
 
-```{r satsensor_plot, warning = FALSE, message = FALSE}
-
+```{r satsensorplot, fig.height=4.5, fig.width = 5, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 ssplot <- draw_satsensor_plot(x = modelresult)
 ssplot
-
 ```
 
-### Function: `draw_model_plot()`
+\newpage
+
+## Function: `draw_model_plot()`
 
 This will plot your two datastreams over time, as well as your predicted data from the model
 
-```{r model_plot, warning = FALSE, message = FALSE}
-
+```{r showmodelplot, fig.height=4, fig.width = 6, fig.align = "center", fig.show = "hold", warning=FALSE, echo = FALSE, message=FALSE}
 modplot <- draw_model_plot(x = modelresult)
 modplot
-
 ```
+
+
+
 
 
 
